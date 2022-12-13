@@ -103,9 +103,15 @@ class ImData {
     xGap: number,
     yGap: number,
     getSize: GetSize,
-    colorScale = d3Scale.scaleOrdinal(d3ScaleChromatic.schemePaired)
+    colorScale: Array<string> | undefined
+    // colorScale = d3Scale.scaleOrdinal(d3ScaleChromatic['schemeRdGy'][11]) // 使用D3的颜色库
   ) {
-    this.colorScale = colorScale
+    // this.colorScale = colorScale
+    if (!!colorScale) {
+      this.colorScale = d3Scale.scaleOrdinal(colorScale)
+    } else {
+      this.colorScale = d3Scale.scaleOrdinal(d3ScaleChromatic['schemeRdGy'][11])
+    }
     this.getSize = getSize
     this.layout = getLayout(xGap, yGap)
     this.data = this.createMdataFromData(d, '0')
@@ -176,6 +182,12 @@ class ImData {
       d.x = -d.x + this.rootWidth
       d.y += this.diffY
     }
+  }
+
+  updateScheme(newMmdata: ImData) : void {
+    this.colorNumber = newMmdata.colorNumber
+    this.colorScale = newMmdata.colorScale
+    this.data = newMmdata.data
   }
 
   getRootWidth (): number { return this.rootWidth }

@@ -80,6 +80,7 @@ export default defineComponent({
     keyboard: Boolean,
     ctm: Boolean,
     zoom: Boolean,
+    colorScale: Array<string>,
     // i18n
     locale: { type: String as PropType<Locale>, default: 'zh' }
   },
@@ -101,7 +102,7 @@ export default defineComponent({
       emitter.emit('selection-g', d3.select(gEle.value))
       emitter.emit('selection-asstSvg', d3.select(asstSvgEle.value))
       emitter.emit('selection-foreign',d3.select(foreignEle.value))
-      emitter.emit('mmdata', new ImData(cloneDeep(props.modelValue[0]), xGap, yGap, getSize))
+      emitter.emit('mmdata', new ImData(cloneDeep(props.modelValue[0]), xGap, yGap, getSize, props.colorScale))
 
       changeSharpCorner.value = false
       afterOperation()
@@ -121,6 +122,12 @@ export default defineComponent({
     watch(() => [props.branch, addNodeBtn.value, props.sharpCorner], () => {
       draw()
       changeSharpCorner.value = false
+    })
+    watch(() => [props.colorScale], () => {
+      // mmdata = undefined;
+      const newMmdata = new ImData(cloneDeep(props.modelValue[0]), xGap, yGap, getSize, props.colorScale)
+      mmdata.updateScheme(newMmdata)
+      draw()
     })
     watch(() => [props.xGap, props.yGap], (val) => {
       mmdata.setBoundingBox(val[0], val[1])

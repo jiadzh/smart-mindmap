@@ -22,6 +22,8 @@
       :timetravel="checkboxList['timetravel'].value"
       @update:model-value="onChange"
       :locale="locale"
+      :color-scale="colorScale"
+
     />
     <div class="right-bottom">
       <div>
@@ -30,6 +32,12 @@
           <option value="zh">简体中文</option>
           <option value="en">English</option>
           <option value="ptBR">Brazilian Portuguese</option>
+        </select>
+      </div>
+      <div>
+        <label for="scheme-select">配色</label>
+        <select id="scheme-select" v-model="colorScale">
+          <option v-for="s in scheme" :value="s.colors">{{s.name}}</option>
         </select>
       </div>
       <div v-for="(item, key) in checkboxList" :key="key">
@@ -46,6 +54,7 @@
 
 <script lang="ts">
 import learn from './learn.json'
+import scheme from './assets/scheme.json'
 import { defineComponent, reactive, ref } from 'vue'
 import Mindmap from './components/Mindmap'
 import { Locale } from './components/Mindmap/interface'
@@ -80,13 +89,16 @@ export default defineComponent({
     const data = ref(learn)
     const onChange = () => console.log('update:model-value')
     const locale = ref<Locale>('zh')
+    const colorScale = ref<string[]>(['#FF0000', '#FF7F00', '#FFFF00', '#00FF00', '#00FFFF', '#0000FF', '#8B00FF'])
 
     return {
       data,
       checkboxList,
       rangeList,
       onChange,
-      locale
+      locale,
+      colorScale,
+      scheme
     }
   }
 })
