@@ -25,5 +25,6 @@ declare const style: {
   readonly menu: string
   readonly prev: string
   readonly next: string
+  readonly type: string
 }
 export default style

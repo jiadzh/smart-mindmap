@@ -1,4 +1,4 @@
-$seleColor: rgba($color: blue, $alpha: 0.15);
+$seleColor: rgba($color: rgb(0, 0, 0), $alpha: 0.8);
 
 .container {
   position: relative;
@@ -32,8 +32,14 @@ $seleColor: rgba($color: blue, $alpha: 0.15);
   }
 
   text {
-    fill: #4B4B4B;
+    // fill: #4B4B4B;
     cursor: default;
+  }
+
+  .type {
+    fill: #3f51b5;
+    width: 100px;
+    height: 100px;
   }
 
   foreignObject {
@@ -90,14 +96,16 @@ $seleColor: rgba($color: blue, $alpha: 0.15);
 
   .text > rect {
     opacity: 0;
-    fill: $seleColor;
-    stroke-width: 1;
-    stroke: white;
+    fill: transparent;
+    // stroke-width: 3;
+    // stroke: $seleColor;
   }
 
   // 关于selected
   .selected > .content > .text > rect {
     opacity: 1;
+    stroke-width: 3;
+    stroke: $seleColor;
   }
 
   .root.selected > .content > .text > rect {
@@ -114,8 +122,8 @@ $seleColor: rgba($color: blue, $alpha: 0.15);
   .outline > .content > .text > rect {
     opacity: 1;
     fill: transparent;
-    stroke-width: 3;
-    stroke: $seleColor;
+    // stroke-width: 3;
+    // stroke: $seleColor;
   }
 
   .root > .content > .text > rect {

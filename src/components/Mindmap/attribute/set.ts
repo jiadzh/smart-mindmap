@@ -39,9 +39,11 @@ export const attrText = (text: d3.Selection<SVGTextElement, Mdata, SVGGElement, 
 }
 
 export const attrTspan = (tspan: d3.Selection<SVGTSpanElement, TspanData, SVGTextElement, Mdata>): void => {
+  // console.log('attrTspan', tspan)
   tspan.attr('alignment-baseline', 'text-before-edge')
     .text((d) => d.name || ' ')
     .attr('x', 0)
+    .attr('y', -rootTextRectPadding / 2)
     .attr('dy', (d, i) => i ? d.height : 0)
 }
 
@@ -70,7 +72,7 @@ export const attrTextRect = (rect: SelectionRect, padding: number, radius = 4): 
     .attr('y', -padding)
     .attr('rx', radius).attr('ry', radius)
     .attr('width', (d) => d.width + padding * 2)
-    .attr('height', (d) => d.height + padding * 2)
+    .attr('height', (d) => d.height + padding)
 }
 
 export const attrExpandBtn = (g: SelectionG, trp: number): void => {

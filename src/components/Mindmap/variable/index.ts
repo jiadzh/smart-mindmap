@@ -5,7 +5,7 @@ import { Ref, ref, SetupContext } from 'vue'
 import { onDragEnd, onDragMove, onZoomMove } from '../listener'
 import * as selection from './selection'
 import * as element from './element'
-import { getDragContainer, moveView } from '../assistant'
+import { getDragContainer, moveView, getSelectedGData } from '../assistant'
 
 export * as ctm from './contextmenu'
 export { selection, element }
@@ -38,6 +38,9 @@ emitter.on<TwoNumber>('scale-extent', (value) => scaleExtent = value || scaleExt
 // 可编辑指示
 export let editFlag = false
 emitter.on<boolean>('edit-flag', (val) => editFlag = !!val)
+
+// 选择节点事件
+emitter.on('svg-selected', ()=> {console.log(getSelectedGData().rawData)})
 
 // 节点边距与间隔
 export const rootTextRectRadius = 6

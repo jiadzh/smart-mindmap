@@ -61,6 +61,7 @@ const bindEvent = (g: SelectionG, isRoot: boolean) => {
 }
 
 const appendNode = (enter: d3.Selection<d3.EnterElement, Mdata, SVGGElement, IsMdata>) => {
+  // console.log('appendNode', enter.data())
   const isRoot = !enter.data()[0]?.depth
   const enterG = enter.append('g')
   attrG(enterG)
@@ -69,11 +70,12 @@ const appendNode = (enter: d3.Selection<d3.EnterElement, Mdata, SVGGElement, IsM
   // 节点容器
   const gContent = enterG.append('g').attr('class', style.content)
   const gTrigger = gContent.append('rect')
+
   // 绘制文本
   const gText = gContent.append('g').attr('class', style.text)
   const gTextRect = gText.append('rect')
   const text = gText.append('text')
-  attrText(text)
+  attrText(text)  
   const tspan = text.selectAll('tspan').data(getTspanData).enter().append('tspan')
   attrTspan(tspan)
   // 绘制添加按钮
@@ -95,6 +97,8 @@ const appendNode = (enter: d3.Selection<d3.EnterElement, Mdata, SVGGElement, IsM
 }
 
 const updateNode = (update: SelectionG) => {
+  // 更新节点内容
+  // console.log('更新节点内容', update)
   const isRoot = !update.data()[0]?.depth
   const tran = makeTransition(500, d3.easePolyOut)
   attrG(update, tran)

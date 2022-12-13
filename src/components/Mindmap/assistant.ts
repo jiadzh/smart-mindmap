@@ -81,6 +81,8 @@ export function getDragContainer (this: SVGGElement): SVGGElement {
 export function selectGNode (d: SVGGElement): void
 export function selectGNode (d: Mdata): void
 export function selectGNode (d: SVGGElement | Mdata): void {
+  // 选择一个节点
+  console.log(d)
   const ele = d instanceof SVGGElement ? d : document.querySelector<SVGGElement>(`g[data-id='${getDataId(d)}']`)
   const oldSele = document.getElementsByClassName(style.selected)[0]
   if (ele) {
@@ -88,11 +90,13 @@ export function selectGNode (d: SVGGElement | Mdata): void {
       if (oldSele !== ele) {
         oldSele.classList.remove(style.selected)
         ele.classList.add(style.selected)
+        emitter.emit('svg-selected')
       } else {
         emitter.emit('edit-flag', true)
       }
     } else {
       ele.classList.add(style.selected)
+      emitter.emit('svg-selected')
     }
   } else {
     throw new Error('selectGNode failed')

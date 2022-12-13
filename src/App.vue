@@ -63,13 +63,13 @@ export default defineComponent({
       'fit-btn': { value: true },
       timetravel: { value: true },
       'download-btn': { value: true },
-      'add-node-btn': { value: true },
+      'add-node-btn': { value: false },
       keyboard: { value: false, disabled: true },
       zoom: { value: true },
       drag: { value: true },
       edit: { value: true },
       contextmenu: { value: true },
-      'sharp-corner': { value: false },
+      'sharp-corner': { value: true },
       vertical: { value: false, disabled: true }
     })
     const rangeList = reactive({
