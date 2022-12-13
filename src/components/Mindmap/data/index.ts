@@ -13,6 +13,8 @@ export let mmdata: ImData
 emitter.on<ImData>('mmdata', (val) => val ? mmdata = val : null)
 
 export const afterOperation = (snap = true): void => {
+  //操作即本地缓存
+  localStorage.setItem('rawData', JSON.stringify(mmdata.data.rawData))
   if (snap) { snapshot.snap(mmdata.data) }
   mmcontext.emit('update:modelValue', cloneDeep([mmdata.data.rawData]))
   updateTimeTravelState()
