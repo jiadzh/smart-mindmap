@@ -10,7 +10,7 @@ export { ImData }
 
 // 思维导图数据
 export let mmdata: ImData
-emitter.on<ImData>('mmdata', (val) => val ? mmdata = val : null)
+emitter.on<ImData>('mmdata', val => val ? mmdata = val : null)
 
 export const afterOperation = (snap = true): void => {
   //操作即本地缓存

@@ -38,7 +38,7 @@ export const getTspanData = (d: Mdata): TspanData[] => {
 export const getPath = (d: Mdata): string => {
   let dpw = 0
   let dph = 0
-  const trp = Math.max(textRectPadding - 3, 0) // -3为了不超过选中框
+  const trp = Math.max(textRectPadding + 5, 0) // +5 长一点好看
   let w = d.width + trp
   const targetOffset = getYOffset()
   let sourceOffset = targetOffset
@@ -62,7 +62,12 @@ export const getPath = (d: Mdata): string => {
     }
     w = -w
   }
-  const source: TwoNumber = [-d.dx + dpw - d.px, -d.dy + dph + sourceOffset - d.py]
+  let source: TwoNumber
+  if (d.parent != null && d.parent.parent == null) {
+    source = [-d.dx + dpw - d.px, -d.dy + dph + sourceOffset - d.py] // 上级是根节点
+  } else {
+    source = [-d.dx + dpw - d.px + 23, -d.dy + dph + sourceOffset - d.py] // +23 让连接折叠按钮的连接在折叠按钮上
+  }
   const target: TwoNumber = [0, d.height + targetOffset]
   return `${link({ source, target })}L${w},${target[1]}`
 }

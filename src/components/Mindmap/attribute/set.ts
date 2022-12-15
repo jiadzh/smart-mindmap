@@ -17,7 +17,8 @@ export const attrA = (
   if (isRoot) {
       attrTrigger(gTrigger, rootTextRectPadding)
       attrTextRect(gTextRect, rootTextRectPadding, rootTextRectRadius)
-      attrExpandBtn(gExpandBtn, rootTextRectPadding)
+      // 根节点不绘制折叠按钮
+      // if (!!gExpandBtn) attrExpandBtn(gExpandBtn, rootTextRectPadding)
       if (gAddBtn) { attrAddBtn(gAddBtn, rootTextRectPadding) }
     } else {
       attrTrigger(gTrigger, textRectPadding)
@@ -39,7 +40,6 @@ export const attrText = (text: d3.Selection<SVGTextElement, Mdata, SVGGElement, 
 }
 
 export const attrTspan = (tspan: d3.Selection<SVGTSpanElement, TspanData, SVGTextElement, Mdata>): void => {
-  // console.log('attrTspan', tspan)
   tspan.attr('alignment-baseline', 'text-before-edge')
     .text((d) => d.name || ' ')
     .attr('x', 0)
@@ -57,14 +57,22 @@ export const attrAddBtnRect = (rect: SelectionRect): void => {
 
 export const attrExpandBtnRect = (rect: SelectionRect): void => {
   rect.attr('x', -expandBtnRect.width/2).attr('y', -expandBtnRect.height/2)
-    .attr('width', expandBtnRect.width).attr('height', expandBtnRect.height)
+    .attr('width', expandBtnRect.width/2).attr('height', expandBtnRect.height)
     .attr('rx', expandBtnRect.radius).attr('ry', expandBtnRect.radius)
     .attr('stroke', (d) => d.color || 'grey')
     .attr('fill', (d) => d.color || 'grey')
 }
 
 export const attrExpandBtnCircle = (circle: SelectionCircle, cx: number): void => {
-  circle.attr('cx', cx).attr('cy', 0).attr('r', 1)
+  circle.attr('cx', cx)
+    .attr('cy', 0)
+    .attr('r', 6)
+    .attr('stroke', (d) => d.color)
+    .attr('stroke-width', 1)
+    .attr('fill', (d) => {
+      const compute = d3.interpolate(d.color, "#FFFFFF")
+      return compute(1)
+    })
 }
 
 export const attrTextRect = (rect: SelectionRect, padding: number, radius = 4): void => {

@@ -35,12 +35,14 @@ const appendAndBindAddBtn = (g: SelectionG) => {
   return gAddBtn
 }
 
+// 绘制展开折叠按钮
 export const appendExpandBtn = (g: SelectionG): d3.Selection<SVGGElement, Mdata, SVGGElement, IsMdata> => {
   const expandBtn = g.append('g')
-  attrExpandBtnRect(expandBtn.append('rect'))
-  attrExpandBtnCircle(expandBtn.append('circle'), -4)
-  attrExpandBtnCircle(expandBtn.append('circle'), 0)
-  attrExpandBtnCircle(expandBtn.append('circle'), 4)
+  // attrExpandBtnRect(expandBtn.append('rect'))
+  // 叶子节点不绘制
+  attrExpandBtnCircle(expandBtn.filter((d)=>d.children.length > 0).append('circle'), -4)
+  // attrExpandBtnCircle(expandBtn.append('circle'), 0)
+  // attrExpandBtnCircle(expandBtn.append('circle'), 4)
   return expandBtn
 }
 
@@ -61,7 +63,6 @@ const bindEvent = (g: SelectionG, isRoot: boolean) => {
 }
 
 const appendNode = (enter: d3.Selection<d3.EnterElement, Mdata, SVGGElement, IsMdata>) => {
-  // console.log('appendNode', enter.data())
   const isRoot = !enter.data()[0]?.depth
   const enterG = enter.append('g')
   attrG(enterG)
@@ -98,7 +99,6 @@ const appendNode = (enter: d3.Selection<d3.EnterElement, Mdata, SVGGElement, IsM
 
 const updateNode = (update: SelectionG) => {
   // 更新节点内容
-  // console.log('更新节点内容', update)
   const isRoot = !update.data()[0]?.depth
   const tran = makeTransition(500, d3.easePolyOut)
   attrG(update, tran)
