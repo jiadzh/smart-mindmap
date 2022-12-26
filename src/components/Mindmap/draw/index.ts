@@ -40,13 +40,14 @@ export const appendExpandBtn = (g: SelectionG): d3.Selection<SVGGElement, Mdata,
   const expandBtn = g.append('g')
   // attrExpandBtnRect(expandBtn.append('rect'))
   // 叶子节点不绘制
-  attrExpandBtnCircle(expandBtn.filter((d)=>d.children.length > 0).append('circle'), -4)
+  // attrExpandBtnCircle(expandBtn.filter((d)=>d.children.length > 0).append('circle'), -4)
   // attrExpandBtnCircle(expandBtn.append('circle'), 0)
   // attrExpandBtnCircle(expandBtn.append('circle'), 4)
   return expandBtn
 }
 
 const bindEvent = (g: SelectionG, isRoot: boolean) => {
+  // 绑定折叠按钮事件
   const gExpandBtn = g.select(`:scope > g.${style.content} > g.${style['expand-btn']}`)
   gExpandBtn.on('click', onClickExpandBtn)
   if (mmprops.value.drag || mmprops.value.edit) {

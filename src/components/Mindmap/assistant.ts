@@ -82,7 +82,6 @@ export function selectGNode (d: SVGGElement): void
 export function selectGNode (d: Mdata): void
 export function selectGNode (d: SVGGElement | Mdata): void {
   // 选择一个节点
-  console.log(d)
   const ele = d instanceof SVGGElement ? d : document.querySelector<SVGGElement>(`g[data-id='${getDataId(d)}']`)
   const oldSele = document.getElementsByClassName(style.selected)[0]
   if (ele) {

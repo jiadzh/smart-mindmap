@@ -89,8 +89,9 @@ $seleColor: rgba($color: rgb(0, 0, 0), $alpha: 0.8);
       }
 
       circle {
-        fill: currentColor;
-        opacity: 1;
+        stroke: currentColor;
+        // fill: currentColor;
+        // opacity: 1;
       }
     }
   }

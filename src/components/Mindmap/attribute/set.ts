@@ -1,4 +1,4 @@
-import { IsMdata, Mdata, SelectionCircle, SelectionG, SelectionRect, Transition, TspanData } from '../interface'
+import { IsMdata, Mdata, SelectionCircle, SelectionG, SelectionRect, Transition, TspanData, SelectionText } from '../interface'
 import * as d3 from '../d3'
 import { addBtnRect, addBtnSide, branch, changeSharpCorner, expandBtnRect, rootTextRectPadding, rootTextRectRadius, textRectPadding } from '../variable'
 import { getAddBtnClass, getAddBtnTransform, getDataId, getExpandBtnTransform, getGClass, getGTransform, getPath } from './get'
@@ -24,6 +24,11 @@ export const attrA = (
       attrTrigger(gTrigger, textRectPadding)
       attrTextRect(gTextRect, textRectPadding)
       attrExpandBtn(gExpandBtn, textRectPadding)
+      // 先去掉展开按钮
+      gExpandBtn.selectChildren().remove()
+      // 根据是否有子节点绘制展开按钮
+      attrExpandBtnCircle(gExpandBtn.filter((d) => d.children.length > 0 || d._children.length > 0).append('circle'), -4)
+      attrExpandBtnNumber(gExpandBtn.filter((d) => d.children.length > 0 || d._children.length > 0).append('text'))
       if (gAddBtn) { attrAddBtn(gAddBtn, textRectPadding) }
     }
 }
@@ -41,7 +46,7 @@ export const attrText = (text: d3.Selection<SVGTextElement, Mdata, SVGGElement, 
 
 export const attrTspan = (tspan: d3.Selection<SVGTSpanElement, TspanData, SVGTextElement, Mdata>): void => {
   tspan.attr('alignment-baseline', 'text-before-edge')
-    .text((d) => d.name || ' ')
+    .text((d) => d.name || '请输入')
     .attr('x', 0)
     .attr('y', -rootTextRectPadding / 2)
     .attr('dy', (d, i) => i ? d.height : 0)
@@ -67,12 +72,19 @@ export const attrExpandBtnCircle = (circle: SelectionCircle, cx: number): void =
   circle.attr('cx', cx)
     .attr('cy', 0)
     .attr('r', 6)
-    .attr('stroke', (d) => d.color)
+    .attr('stroke', (d) => d3.interpolate(d.color, "#FFFFFF")(0.7))
     .attr('stroke-width', 1)
-    .attr('fill', (d) => {
-      const compute = d3.interpolate(d.color, "#FFFFFF")
-      return compute(1)
-    })
+    .attr('fill', (d) => d3.interpolate(d.color, "#FFFFFF")(0.9))
+}
+
+// 绘制展开按钮上的数字
+export const attrExpandBtnNumber = (text: SelectionText): void => {
+  text.append('tspan')
+     .text((d) => d.children.length + d._children.length)
+     .attr('x', -7)
+     .attr('y', 3)
+     .attr("font-size", 9)
+     .attr('fill', (d) => d.color)
 }
 
 export const attrTextRect = (rect: SelectionRect, padding: number, radius = 4): void => {

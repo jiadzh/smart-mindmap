@@ -124,7 +124,6 @@ export default defineComponent({
       changeSharpCorner.value = false
     })
     watch(() => [props.colorScale], () => {
-      // mmdata = undefined;
       const newMmdata = new ImData(cloneDeep(props.modelValue[0]), xGap, yGap, getSize, props.colorScale)
       mmdata.updateScheme(newMmdata)
       draw()
