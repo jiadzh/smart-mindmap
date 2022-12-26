@@ -81,9 +81,9 @@ export const attrExpandBtnCircle = (circle: SelectionCircle, cx: number): void =
 export const attrExpandBtnNumber = (text: SelectionText): void => {
   text.append('tspan')
      .text((d) => d.children.length + d._children.length)
-     .attr('x', -7)
+     .attr('x', (d) => (d.children.length + d._children.length) >= 10 ? -9 : -6.5)
      .attr('y', 3)
-     .attr("font-size", 9)
+     .attr("font-size", 8)
      .attr('fill', (d) => d.color)
 }
 
