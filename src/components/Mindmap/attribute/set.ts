@@ -46,7 +46,7 @@ export const attrText = (text: d3.Selection<SVGTextElement, Mdata, SVGGElement, 
 
 export const attrTspan = (tspan: d3.Selection<SVGTSpanElement, TspanData, SVGTextElement, Mdata>): void => {
   tspan.attr('alignment-baseline', 'text-before-edge')
-    .text((d) => d.name || '请输入')
+    .text((d) => d.name || ' ')
     .attr('x', 0)
     .attr('y', -rootTextRectPadding / 2)
     .attr('dy', (d, i) => i ? d.height : 0)

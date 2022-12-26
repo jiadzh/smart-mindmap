@@ -116,8 +116,10 @@ export const onClickMenu = (name: MenuEvent): void => {
     case 'expand': expand(getSelectedGData().id); break
     case 'add-sibling': {
       const seleData = getSelectedGData()
-      const d = addSibling(seleData.id, '')
-      if (d) { edit(d) }
+      if (!!seleData) {
+        const d = addSibling(seleData.id, '')
+        if (d) { edit(d) }
+      }
     } break
     case 'add-sibling-before': {
       const seleData = getSelectedGData()

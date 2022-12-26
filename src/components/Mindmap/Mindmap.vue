@@ -19,26 +19,21 @@
       <button @click="prev" :class="{ [style['disabled']]: !hasPrev }"><i :class="style['prev']"></i></button>
       <button @click="next" :class="{ [style['disabled']]: !hasNext }"><i :class="style['next']"></i></button>
     </div>
-    <contextmenu
-      v-if="ctm"
-      :position="contextmenuPos"
-      :groups="menu"
-      @click-item="onClickMenu"
-    ></contextmenu>
+    <contextmenu v-if="ctm" :position="contextmenuPos" :groups="menu" @click-item="onClickMenu"></contextmenu>
   </div>
 </template>
 
 <script lang="ts">
 import emitter from '@/mitt'
-import { defineComponent, onMounted, PropType, watch, watchEffect } from 'vue'
+import { defineComponent, onMounted, PropType, watch, watchEffect, onBeforeUnmount } from 'vue'
 import { Data, Locale, TwoNumber } from './interface'
 import style from './css'
 import * as d3 from './d3'
 import { afterOperation, ImData, mmdata } from './data'
 import { hasNext, hasPrev } from './state'
-import { fitView, getSize, centerView, next, prev, download, bindForeignDiv } from './assistant'
+import { fitView, getSize, centerView, next, prev, download, bindForeignDiv, getSelectedGData } from './assistant'
 import { xGap, yGap, branch, scaleExtent, ctm, selection, changeSharpCorner, addNodeBtn, mmprops } from './variable'
-import { wrapperEle, svgEle, gEle, asstSvgEle, foreignEle, foreignDivEle  } from './variable/element'
+import { wrapperEle, svgEle, gEle, asstSvgEle, foreignEle, foreignDivEle } from './variable/element'
 import { draw } from './draw'
 import { switchZoom, switchEdit, switchSelect, switchContextmenu, switchDrag, onClickMenu } from './listener'
 import Contextmenu from '../Contextmenu.vue'
@@ -62,7 +57,7 @@ export default defineComponent({
     branch: {
       type: Number,
       default: branch,
-      validator: (val: number) => val >= 1 && val <= 6 
+      validator: (val: number) => val >= 1 && val <= 6
     },
     scaleExtent: {
       type: Object as PropType<TwoNumber>,
@@ -84,7 +79,7 @@ export default defineComponent({
     // i18n
     locale: { type: String as PropType<Locale>, default: 'zh' }
   },
-  setup (props, context) {
+  setup(props, context) {
     // 立即执行
     watchEffect(() => i18next.changeLanguage(props.locale))
     watchEffect(() => emitter.emit('scale-extent', props.scaleExtent))
@@ -95,13 +90,71 @@ export default defineComponent({
     watchEffect(() => addNodeBtn.value = props.edit && props.addNodeBtn)
     watchEffect(() => mmprops.value.drag = props.drag)
     watchEffect(() => mmprops.value.edit = props.edit)
+
+    const handleEvent = (event: KeyboardEvent) => {
+      console.log(event)
+      if (event.keyCode === 13) {
+        if (!!getSelectedGData()) {
+          onClickMenu('add-sibling')
+          event.preventDefault()
+        }
+      } else if (event.keyCode === 9) {
+        if (!!getSelectedGData()) {
+          onClickMenu('add')
+          event.preventDefault()
+        }
+      } else if (event.ctrlKey && event.keyCode === 89) {
+        // Ctrl + Y
+        if (hasNext) {
+          next()
+          event.preventDefault()
+        }
+      } else if (event.ctrlKey && event.keyCode === 90) {
+        // Ctrl + Z
+        if (hasPrev) {
+          prev()
+          event.preventDefault()
+        }
+      } else if (event.ctrlKey && event.keyCode === 88) {
+        // Ctrl + X
+        if (!!getSelectedGData()) {
+          onClickMenu('cut')
+          event.preventDefault()
+        }
+      } else if (event.ctrlKey && event.keyCode === 86) {
+        // Ctrl + V
+        if (!!getSelectedGData()) {
+          onClickMenu('paste')
+          event.preventDefault()
+        }
+      } else if (event.ctrlKey && event.keyCode === 67) {
+        // Ctrl + C
+        if (!!getSelectedGData()) {
+          onClickMenu('copy')
+          event.preventDefault()
+        }
+      } else if (event.ctrlKey && event.keyCode === 46) {
+        // Ctrl + Delete
+        if (!!getSelectedGData()) {
+          onClickMenu('delete')
+          event.preventDefault()
+        }
+      } else if (event.keyCode === 46) {
+        // Ctrl + Delete
+        if (!!getSelectedGData()) {
+          onClickMenu('delete-one')
+          event.preventDefault()
+        }
+      }
+    }
+
     // onMounted
     onMounted(() => {
       if (!svgEle.value || !gEle.value || !asstSvgEle.value || !foreignEle.value || !foreignDivEle.value) { return }
       emitter.emit('selection-svg', d3.select(svgEle.value))
       emitter.emit('selection-g', d3.select(gEle.value))
       emitter.emit('selection-asstSvg', d3.select(asstSvgEle.value))
-      emitter.emit('selection-foreign',d3.select(foreignEle.value))
+      emitter.emit('selection-foreign', d3.select(foreignEle.value))
       emitter.emit('mmdata', new ImData(cloneDeep(props.modelValue[0]), xGap, yGap, getSize, props.colorScale))
 
       changeSharpCorner.value = false
@@ -117,6 +170,10 @@ export default defineComponent({
       })
       switchZoom(props.zoom)
       switchContextmenu(props.ctm)
+      window.addEventListener('keydown', handleEvent)
+    })
+    onBeforeUnmount(() => {
+      window.removeEventListener('keydown', handleEvent)
     })
     // watch
     watch(() => [props.branch, addNodeBtn.value, props.sharpCorner], () => {
