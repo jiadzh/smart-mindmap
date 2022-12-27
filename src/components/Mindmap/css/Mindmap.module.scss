@@ -1,4 +1,4 @@
-$seleColor: rgba($color: rgb(0, 0, 0), $alpha: 0.8);
+$seleColor: rgba($color: rgb(46, 185, 255), $alpha: 0.8);
 
 .container {
   position: relative;
@@ -106,7 +106,7 @@ $seleColor: rgba($color: rgb(0, 0, 0), $alpha: 0.8);
   // 关于selected
   .selected > .content > .text > rect {
     opacity: 1;
-    stroke-width: 3;
+    stroke-width: 1;
     stroke: $seleColor;
   }
 

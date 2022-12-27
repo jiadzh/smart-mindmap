@@ -78,12 +78,12 @@ export default defineComponent({
       drag: { value: true },
       edit: { value: true },
       contextmenu: { value: true },
-      'sharp-corner': { value: true },
+      'sharp-corner': { value: false },
       vertical: { value: false, disabled: true }
     })
     const rangeList = reactive({
-      branch: { value: 4, min: 1, max: 6 },
-      'x-gap': { value: 84, min: 0, max: 100 },
+      branch: { value: 1, min: 1, max: 6 },
+      'x-gap': { value: 72, min: 0, max: 100 },
       'y-gap': { value: 18, min: 0, max: 100 }
     })
     const data = ref(learn)

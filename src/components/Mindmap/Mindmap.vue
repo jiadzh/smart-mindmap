@@ -92,7 +92,6 @@ export default defineComponent({
     watchEffect(() => mmprops.value.edit = props.edit)
 
     const handleEvent = (event: KeyboardEvent) => {
-      console.log(event)
       if (event.keyCode === 13) {
         if (!!getSelectedGData()) {
           onClickMenu('add-sibling')

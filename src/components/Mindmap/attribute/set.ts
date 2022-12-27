@@ -15,22 +15,22 @@ export const attrA = (
   gAddBtn?: SelectionG
 ): void => {
   if (isRoot) {
-      attrTrigger(gTrigger, rootTextRectPadding)
-      attrTextRect(gTextRect, rootTextRectPadding, rootTextRectRadius)
-      // 根节点不绘制折叠按钮
-      // if (!!gExpandBtn) attrExpandBtn(gExpandBtn, rootTextRectPadding)
-      if (gAddBtn) { attrAddBtn(gAddBtn, rootTextRectPadding) }
-    } else {
-      attrTrigger(gTrigger, textRectPadding)
-      attrTextRect(gTextRect, textRectPadding)
-      attrExpandBtn(gExpandBtn, textRectPadding)
-      // 先去掉展开按钮
-      gExpandBtn.selectChildren().remove()
-      // 根据是否有子节点绘制展开按钮
-      attrExpandBtnCircle(gExpandBtn.filter((d) => d.children.length > 0 || d._children.length > 0).append('circle'), -4)
-      attrExpandBtnNumber(gExpandBtn.filter((d) => d.children.length > 0 || d._children.length > 0).append('text'))
-      if (gAddBtn) { attrAddBtn(gAddBtn, textRectPadding) }
-    }
+    attrTrigger(gTrigger, rootTextRectPadding)
+    attrTextRect(gTextRect, rootTextRectPadding, rootTextRectRadius)
+    // 根节点不绘制折叠按钮
+    // if (!!gExpandBtn) attrExpandBtn(gExpandBtn, rootTextRectPadding)
+    if (gAddBtn) { attrAddBtn(gAddBtn, rootTextRectPadding) }
+  } else {
+    attrTrigger(gTrigger, textRectPadding)
+    attrTextRect(gTextRect, textRectPadding)
+    attrExpandBtn(gExpandBtn, textRectPadding)
+    // 先去掉展开按钮
+    gExpandBtn.selectChildren().remove()
+    // 根据是否有子节点绘制展开按钮
+    attrExpandBtnCircle(gExpandBtn.filter((d) => d.children.length > 0 || d._children.length > 0).append('circle'), -4)
+    attrExpandBtnNumber(gExpandBtn.filter((d) => d.children.length > 0 || d._children.length > 0).append('text'))
+    if (gAddBtn) { attrAddBtn(gAddBtn, textRectPadding) }
+  }
 }
 
 export const attrG = (g: SelectionG, tran?: Transition): void => {
@@ -61,8 +61,8 @@ export const attrAddBtnRect = (rect: SelectionRect): void => {
 }
 
 export const attrExpandBtnRect = (rect: SelectionRect): void => {
-  rect.attr('x', -expandBtnRect.width/2).attr('y', -expandBtnRect.height/2)
-    .attr('width', expandBtnRect.width/2).attr('height', expandBtnRect.height)
+  rect.attr('x', -expandBtnRect.width / 2).attr('y', -expandBtnRect.height / 2)
+    .attr('width', expandBtnRect.width / 2).attr('height', expandBtnRect.height)
     .attr('rx', expandBtnRect.radius).attr('ry', expandBtnRect.radius)
     .attr('stroke', (d) => d.color || 'grey')
     .attr('fill', (d) => d.color || 'grey')
@@ -80,11 +80,11 @@ export const attrExpandBtnCircle = (circle: SelectionCircle, cx: number): void =
 // 绘制展开按钮上的数字
 export const attrExpandBtnNumber = (text: SelectionText): void => {
   text.append('tspan')
-     .text((d) => d.children.length + d._children.length)
-     .attr('x', (d) => (d.children.length + d._children.length) >= 10 ? -9 : -6.5)
-     .attr('y', 3)
-     .attr("font-size", 8)
-     .attr('fill', (d) => d.color)
+  .text((d) => d.children.length + d._children.length)
+  .attr('x', (d) => (d.children.length + d._children.length) >= 10 ? -9 : -6.5)
+  .attr('y', 3)
+  .attr("font-size", 8)
+  .attr('fill', (d) => d.color)
 }
 
 export const attrTextRect = (rect: SelectionRect, padding: number, radius = 4): void => {
@@ -133,7 +133,7 @@ export const attrPath = (
   }
 }
 
-function pathTween (data: Mdata, index: number, paths: ArrayLike<SVGPathElement>) {
+function pathTween(data: Mdata, index: number, paths: ArrayLike<SVGPathElement>) {
   const precision = 10
   const d = getPath(data)
   const path0 = paths[index]
