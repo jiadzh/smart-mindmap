@@ -1,18 +1,17 @@
-# vue3-mindmap
+# smart-mindmap
 
-[![npm](https://img.shields.io/npm/v/vue3-mindmap)](https://www.npmjs.com/package/vue3-mindmap)
-[![build](https://github.com/hellowuxin/vue3-mindmap/actions/workflows/blank.yml/badge.svg)](https://github.com/hellowuxin/vue3-mindmap/actions)
-[![coveralls](https://img.shields.io/coveralls/github/hellowuxin/vue3-mindmap)](https://coveralls.io/github/hellowuxin/vue3-mindmap)
+[![npm](https://img.shields.io/npm/v/smart-mindmap)](https://www.npmjs.com/package/smart-mindmap)
+[![build](https://github.com/jiadzh/smart-mindmap/actions/workflows/blank.yml/badge.svg)](https://github.com/jiadzh/smart-mindmap/actions)
+[![coveralls](https://img.shields.io/coveralls/github/jiadzh/smart-mindmap)](https://coveralls.io/github/jiadzh/smart-mindmap)
 
 > Mindmap component for Vue3 inspired by [MindNode](https://mindnode.com)
 
-[live demo / 演示页面](https://5xin.xyz/vue3-mindmap)  
 [Directory Description / 目录说明](./Directory.md)
 
 ## Install
 
 ```sh
-npm install vue3-mindmap
+npm install smart-mindmap
 ```
 
 ## PROPS
@@ -44,8 +43,8 @@ npm install vue3-mindmap
 </template>
 
 <script>
-import mindmap from 'vue3-mindmap'
-import 'vue3-mindmap/dist/style.css'
+import mindmap from 'smart-mindmap'
+import 'smart-mindmap/dist/style.css'
 
 export default defineComponent({
   components: { mindmap },
@@ -80,13 +79,3 @@ export default defineComponent({
 ## 注意
 
 - 当xGap小于一定数值，父节点的trigger由于添加按钮的存在可能遮挡住子节点的trigger，无法响应子节点的点击
-
-## 待解决
-
-- 直角分支radius
-
-## Todo
-
-- 多选节点
-- 多主节点
-- 更多节点样式

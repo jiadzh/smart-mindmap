@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="left-top">
-      <a href="https://github.com/hellowuxin/vue3-mindmap" target="_blank">GitHub</a>
+      <a href="https://github.com/jiadzh/smart-mindmap" target="_blank">GitHub</a>
     </div>
     <div class="right-top"><span>Props</span></div>
     <mindmap
